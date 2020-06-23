@@ -17,7 +17,7 @@ include_directories(${SDL2_INCLUDE_DIRS} src)
 # target_link_libraries(SnakeGame ${SDL2_LIBRARIES})
 
 add_subdirectory(thirdparty/googletest)
-add_executable(test test/test.cpp)
+add_executable(test test/test.cpp src/pieces.cpp)
 
 target_link_libraries(test 
     gtest_main 
