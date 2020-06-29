@@ -4,13 +4,15 @@ This is a repo for my the Capstone project in the [Udacity C++ Nanodegree Progra
 
 [Tetris](https://en.wikipedia.org/wiki/Tetris) is a tile-matching video game created by Russian software engineer Alexey Pajitnov in 1984. It has been published by several companies, most prominently during a war for the appropriation of the game's rights in the late 1980s.
 
+![Image1](https://github.com/shaha-pratik/CppND-Capstone-Tetris-Game/blob/master/docs/game.gif)
+
 # Steps for creating game
 
 ## Step 1:
 
 This game has total 7 peices (square, L, mirrored-L, N, mirrored-N and T, I) as shown in figure below: 
 
-<src = img >
+![Image2](https://github.com/shaha-pratik/CppND-Capstone-Tetris-Game/blob/master/docs/blocks.png)
 
 So in the code we have used the bits for reprentation of the block 5x5:
 
@@ -112,7 +114,7 @@ This project uses [Make](https://www.gnu.org/software/make/). The Makefile has f
 
 I have used [plantuml](https://www.plantuml.com) for generation of the class diagrams. For the help of for generation of the diagram, here is the [help](https://www.plantuml.com/class-diagram) document.
 
-<img>
+![Image3](https://github.com/shaha-pratik/CppND-Capstone-Tetris-Game/blob/master/docs/classstructure.png)
 
 ## Keyboard Interaction
 
