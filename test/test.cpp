@@ -1,131 +1,133 @@
 #include <gtest/gtest.h>
 
 #define private public
-#include "pieces.h"
-
+#include "piece.h"
 
 TEST(PiecesTest, ConstructorTest) {
-    Pieces default_pieces;
-    EXPECT_EQ(default_pieces.GetShape(), PieceType::I_Shape);
-    EXPECT_EQ(default_pieces.GetRotation(), 0);
+  Piece default_piece;
+  EXPECT_EQ(default_piece.GetPieceType(), 1);
+  EXPECT_EQ(default_piece.GetRotation(), 0);
 
-    Pieces pieces(PieceType::Square_Shape, 270);
-    EXPECT_EQ(pieces.GetShape(), PieceType::Square_Shape);
-    EXPECT_EQ(pieces.GetRotation(), 270);
-}
-
-TEST(PiecesTest, SetterGetterTest) {
-    Pieces default_pieces;
-    default_pieces.SetShape(PieceType::L_Shape);
-    EXPECT_EQ(default_pieces.GetShape(), PieceType::L_Shape);
-    default_pieces.SetRotation(90);
-    EXPECT_EQ(default_pieces.GetRotation(), 90);
+  Piece piece(int(PieceType::SquareShape), 270);
+  EXPECT_EQ(piece.GetPieceType(), 6);
+  EXPECT_EQ(piece.GetRotation(), 270);
 }
 
 TEST(PiecesTest, Rotate_90) {
-    Pieces pieces(PieceType::L_Shape, 0);
-    std::vector<std::vector<int>> test_vector{{1, 2, 3, 4, 5},
-                                              {6, 7, 8, 9, 10},
-                                              {11, 12, 13, 14, 15},
-                                              {16, 17, 18, 19, 20},
-                                              {21, 22, 23, 24, 25}};
-    std::vector<std::vector<int>> expected_out{{5, 10, 15, 20, 25},
-                                              {4, 9, 14, 19, 24},
-                                              {3, 8, 13, 18, 23},
-                                              {2, 7, 12, 17, 22},
-                                              {1, 6, 11, 16, 21}};
-    pieces.SetRotation(90);
-    pieces.Rotate(test_vector);
-    EXPECT_EQ(test_vector, expected_out);
+  Piece pieces;
+
+  int test_vector[5][5] = {{1, 2, 3, 4, 5},
+                           {6, 7, 8, 9, 10},
+                           {11, 12, 13, 14, 15},
+                           {16, 17, 18, 19, 20},
+                           {21, 22, 23, 24, 25}};
+  int expected_out[5][5] = {{5, 10, 15, 20, 25},
+                            {4, 9, 14, 19, 24},
+                            {3, 8, 13, 18, 23},
+                            {2, 7, 12, 17, 22},
+                            {1, 6, 11, 16, 21}};
+  std::copy(&test_vector[0][0], &test_vector[0][0] + 25, &pieces.piece_[0][0]);
+  pieces.RotatePiece(90);
+  for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
+      EXPECT_EQ(pieces.piece_[i][j], expected_out[i][j]);
+    }
+  }
 }
 
 TEST(PiecesTest, Rotate_180) {
-    Pieces pieces(PieceType::L_Shape, 0);
-    std::vector<std::vector<int>> test_vector{{1, 2, 3, 4, 5},
-                                              {6, 7, 8, 9, 10},
-                                              {11, 12, 13, 14, 15},
-                                              {16, 17, 18, 19, 20},
-                                              {21, 22, 23, 24, 25}};
-    std::vector<std::vector<int>> expected_out{{21, 22, 23, 24, 25},
-                                              {16, 17, 18, 19, 20},
-                                              {11, 12, 13, 14, 15},
-                                              {6, 7, 8, 9, 10},
-                                              {1, 2, 3, 4, 5}};
+  Piece pieces;
+  int test_vector[5][5]{{1, 2, 3, 4, 5},
+                        {6, 7, 8, 9, 10},
+                        {11, 12, 13, 14, 15},
+                        {16, 17, 18, 19, 20},
+                        {21, 22, 23, 24, 25}};
+  int expected_out[5][5]{{21, 22, 23, 24, 25},
+                         {16, 17, 18, 19, 20},
+                         {11, 12, 13, 14, 15},
+                         {6, 7, 8, 9, 10},
+                         {1, 2, 3, 4, 5}};
 
-    pieces.SetRotation(180);
-    pieces.Rotate(test_vector);
-    EXPECT_EQ(test_vector, expected_out);
+  std::copy(&test_vector[0][0], &test_vector[0][0] + 25, &pieces.piece_[0][0]);
+  pieces.RotatePiece(180);
+  for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
+      EXPECT_EQ(pieces.piece_[i][j], expected_out[i][j]);
+    }
+  }
 }
 
 TEST(PiecesTest, Rotate_270) {
-    Pieces pieces(PieceType::L_Shape, 0);
-    std::vector<std::vector<int>> test_vector{{1, 2, 3, 4, 5},
-                                              {6, 7, 8, 9, 10},
-                                              {11, 12, 13, 14, 15},
-                                              {16, 17, 18, 19, 20},
-                                              {21, 22, 23, 24, 25}};
+  Piece pieces;
+  int test_vector[5][5]{{1, 2, 3, 4, 5},
+                        {6, 7, 8, 9, 10},
+                        {11, 12, 13, 14, 15},
+                        {16, 17, 18, 19, 20},
+                        {21, 22, 23, 24, 25}};
 
-    std::vector<std::vector<int>> expected_out{{21, 16, 11, 6, 1},
-                                              {22, 17, 12, 7, 2},
-                                              {23, 18, 13, 8, 3},
-                                              {24, 19, 14, 9, 4},
-                                              {25, 20, 15, 10, 5}};
+  int expected_out[5][5]{{21, 16, 11, 6, 1},
+                         {22, 17, 12, 7, 2},
+                         {23, 18, 13, 8, 3},
+                         {24, 19, 14, 9, 4},
+                         {25, 20, 15, 10, 5}};
 
-    pieces.SetRotation(270);
-    pieces.Rotate(test_vector);
-    EXPECT_EQ(test_vector, expected_out);
+  std::copy(&test_vector[0][0], &test_vector[0][0] + 25, &pieces.piece_[0][0]);
+  pieces.RotatePiece(270);
+  for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
+      EXPECT_EQ(pieces.piece_[i][j], expected_out[i][j]);
+    }
+  }
 }
 
 TEST(PiecesTest, Rotate_0) {
-    Pieces pieces(PieceType::L_Shape, 0);
-    std::vector<std::vector<int>> test_vector{{1, 2, 3, 4, 5},
-                                              {6, 7, 8, 9, 10},
-                                              {11, 12, 13, 14, 15},
-                                              {16, 17, 18, 19, 20},
-                                              {21, 22, 23, 24, 25}};
-    std::vector<std::vector<int>> expected_out{{1, 2, 3, 4, 5},
-                                              {6, 7, 8, 9, 10},
-                                              {11, 12, 13, 14, 15},
-                                              {16, 17, 18, 19, 20},
-                                              {21, 22, 23, 24, 25}};
+  Piece pieces;
+  int test_vector[5][5]{{1, 2, 3, 4, 5},
+                        {6, 7, 8, 9, 10},
+                        {11, 12, 13, 14, 15},
+                        {16, 17, 18, 19, 20},
+                        {21, 22, 23, 24, 25}};
+  int expected_out[5][5]{{1, 2, 3, 4, 5},
+                         {6, 7, 8, 9, 10},
+                         {11, 12, 13, 14, 15},
+                         {16, 17, 18, 19, 20},
+                         {21, 22, 23, 24, 25}};
 
-    pieces.SetRotation(0);
-    pieces.Rotate(test_vector);
-    EXPECT_EQ(test_vector, expected_out);
+  std::copy(&test_vector[0][0], &test_vector[0][0] + 25, &pieces.piece_[0][0]);
+  pieces.RotatePiece(0);
+  for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
+      EXPECT_EQ(pieces.piece_[i][j], expected_out[i][j]);
+    }
+  }
 }
 
 TEST(PiecesTest, GetPiece_LShape_90) {
-    Pieces piece(PieceType::L_Shape, 90);
-    std::vector<std::vector<int>> expected_output {{ 0, 0, 0, 0, 0 },
-                                            { 0, 0, 1, 0, 0 },
-                                            { 1, 1, -1, 0, 0 },
-                                            { 0, 0, 0, 0, 0 },
-                                            { 0, 0, 0, 0, 0 }};
-    auto actual_output = piece.GetPieces();
-    
-    EXPECT_EQ(expected_output, actual_output);
-}
+  Piece piece(int(PieceType::LShape), 90);
+  int expected_output[5][5]{{0, 0, 0, 0, 0},
+                            {0, 0, 1, 0, 0},
+                            {1, 1, 1, 0, 0},
+                            {0, 0, 0, 0, 0},
+                            {0, 0, 0, 0, 0}};
 
-TEST(PiecesTest, GetPiece_SquareShape_180) {
-    Pieces piece(PieceType::Square_Shape, 180);
-    std::vector<std::vector<int>> expected_output {{ 0, 0, 0, 0, 0 },
-                                                 { 0, 0, 0, 0, 0 },
-                                                 { 0, 0, -1, 1, 0 },
-                                                 { 0, 0, 1, 1, 0 },
-                                                 { 0, 0, 0, 0, 0 }};
-    auto actual_output = piece.GetPieces();
-    
-    EXPECT_EQ(expected_output, actual_output);
+  for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
+      EXPECT_EQ(piece.piece_[i][j], expected_output[i][j]);
+    }
+  }
 }
 
 TEST(PiecesTest, GetPiece_LMirrorShape_180) {
-    Pieces piece(PieceType::L_Mirror_Shape, 180);
-    std::vector<std::vector<int>> expected_output{{ 0, 0, 0, 0, 0 },
-                                            { 0, 0, 0, 0, 0 },
-                                            { 0, 1, -1, 0, 0 },
-                                            { 0, 0, 1, 0, 0 },
-                                            { 0, 0, 1, 0, 0 }};
-    auto actual_output = piece.GetPieces();
-    
-    EXPECT_EQ(expected_output, actual_output);
+  Piece piece(int(PieceType::LmShape), 180);
+  int expected_output[5][5]{{0, 0, 0, 0, 0},
+                            {0, 0, 0, 0, 0},
+                            {0, 1, 1, 0, 0},
+                            {0, 0, 1, 0, 0},
+                            {0, 0, 1, 0, 0}};
+
+  for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
+      EXPECT_EQ(piece.piece_[i][j], expected_output[i][j]);
+    }
+  }
 }

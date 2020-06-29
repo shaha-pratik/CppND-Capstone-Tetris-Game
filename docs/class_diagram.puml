@@ -1,0 +1,93 @@
+@startuml
+enum PieceType {
+  +ZERO
+  +IShape
+  +LShape
+  +LmShape
+  +NShape
+  +NmShape
+  +SquareShape
+  +TShape
+}
+
+class Piece {
+    +Piece()
+    +Piece(int piece_type, int piece_rotation)
+    +void RotatePiece(int piece_rotation)
+    +int GetInitialXPosition() const
+    +int GetInitialYPosition() const
+    +ony GetPieceType() const
+    -UpdatePiece(int piece_type)
+    +int piece_[5][5]
+    -int piece_type
+    -int piece_rotation
+}
+
+class Board {
+    +Board()
+    +Board(Piece& piece, screen_width, screen_height)
+    +int GetXPostionInPixel(int pos_x) const
+    +int GetYPositionInPixel(int pos_y) const
+    +bool IsBlockFree(int pos_x, int pos_y) const
+    +bool IsMovementPossibleInBlock(int pos_x, int pos_y) const
+    +void StorePieceInBoard(int pos_x, int pos_y)
+    +int DeletePossibleLines()
+    +bool IsGameOver() const
+    +void UpdateCurrentPiece(const Piece& piece)
+    +void ClearBoard()
+    +Piece piece
+    -int screen_height_
+    -int screen_width_
+    -int board_[BOARD_WIDTH][BOARD_HEIGHT]
+    -void InitBoard()
+    -void DeleteLine(int pY)
+}
+
+class Game {
+    +Game(Renderer &renderer)
+    +void Run(Controller &controller, const std::size_t &target_frame_duration)
+    +int GetScore() const
+    -void DrawScene()
+    -void GenerateNewPiece()
+    -bool RestartGame()
+    -void Init()
+    -void DrawPiece(int pX, int pY, const Piece &piece)
+    -void DrawBoard()
+    -int position_x_
+    -int position_y_
+    -const int next_position_x_
+    -const int next_position_y_
+    -int piece_type_
+    -int piece_rotation_
+    -int next_piece_type_
+    -int next_piece_rotation_
+    -Board board_
+    -Piece piece_
+    -Piece next_piece_
+    -int game_score_
+    -int screen_height
+    -Renderer renderer_
+}
+class Controller {
+    +Controller()
+    +int HandleInput(bool& running)
+}
+class Renderer {
+  +Renderer(const std::size_t screen_width, const std::size_t screen_height)
+  +~Renderer()
+  +void DrawBlock(int pos_x, int pos_y, int w, int h)
+  +void ClearScreen()
+  +void UpdateScreen()
+  +int MessageBox()
+  -SDL_Window *sdl_window_
+  -SDL_Renderer *sdl_renderer_
+  -const std::size_t screen_width_
+  -const std::size_t screen_height_
+}
+
+Board o-- Piece
+Piece <|-- PieceType
+Game *-- Board
+Game *-- Controller
+Game *-- Renderer
+@enduml
